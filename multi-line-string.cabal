@@ -1,0 +1,22 @@
+cabal-version: >= 1.8
+
+name: multi-line-string
+version: 0
+
+build-type: Simple
+
+library
+  build-depends: base
+  exposed-modules: MultiLineString
+  hs-source-dirs: src/lib
+
+executable multi-line-string
+  build-depends: base, multi-line-string
+  hs-source-dirs: src/exe
+  main-is: Main.hs
+
+test-suite test
+  build-depends: base, multi-line-string
+  hs-source-dirs: src/test
+  main-is: Main.hs
+  type: exitcode-stdio-1.0

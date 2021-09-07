@@ -10,6 +10,7 @@ defaultMain = do
 
 mainWith :: String -> [String] -> IO ()
 mainWith _ arguments = case arguments of
+  [] -> interact outside
   _ : input : output : _ -> do
     contents <- readFile input
     writeFile output $ outside contents
@@ -24,10 +25,13 @@ outside xs = case xs of
 inside :: String -> String
 inside xs = case xs of
   '"' : '"' : '"' : ys -> '"' : outside ys
+  '\\' : '"' : ys -> "\\\"" <> inside ys
+  '\r' : '\n' : ys -> "\\n\\\n\\" <> inside ys
   x : ys ->
     let
       y = case x of
-        '\n' -> "\\n"
+        '\n' -> "\\n\\\n\\"
+        '\r' -> "\\n\\\n\\"
         '\"' -> "\\\""
         _ -> [x]
     in y <> inside ys
